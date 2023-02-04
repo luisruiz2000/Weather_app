@@ -1,0 +1,40 @@
+body {
+  background-color: #2f3544;
+}
+
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.card {
+  width: 80%;
+}
+
+.card-title {
+  position: absolute;
+  padding: 1.2rem;
+}
+
+.card-date {
+  position: absolute;
+  padding-left: 1.2rem;
+  margin-top: 3.7rem;
+}
+
+.card-temp {
+  position: absolute;
+  padding-left: 1.2rem;
+  margin-top: 20.4rem;
+  font-size: 3.1rem;
+}
+
+.card-desc {
+  margin: 0;
+  position: absolute;
+  padding: 0 1.2rem;
+  margin-top: 24.1rem;
+  background-color: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  border-radius: 10px !important;
+}
