@@ -4,18 +4,16 @@ const Form = ({ showCity }) => {
   const [city, setCity] = useState("");
   const [error, setError] = useState({ empty: "", noNumbers: "" });
 
-  const expresiones = { noNumberExpresion: /^[A-Za-z ]+$/g };
+  const expresiones = { noNumberExpresion: /^[a-zA-ZÀ-ÿ\s]{0,40}$/ };
 
   const handleOnchange = (e) => {
     let value = e.target.value;
 
-    if (value) {
-      expresiones.noNumberExpresion.test(value)
-        ? setCity(value)
-        : setError({ noNumbers: "Este campo solo permite letras" });
-    } else {
-      setError({ noNumbers: "" });
-    }
+    setError({ empty: "", noNumbers: "" });
+
+    expresiones.noNumberExpresion.test(value)
+      ? setCity(value)
+      : setError({ noNumbers: "Este campo solo permite letras" });
   };
 
   const handleSubmit = (e) => {
@@ -24,7 +22,7 @@ const Form = ({ showCity }) => {
       setError({ empty: "Ingresa Una Ciudad" });
     } else {
       showCity(city);
-      setError({ empty: "", noNumbers: "" });
+      setCity("");
     }
   };
 
@@ -34,6 +32,7 @@ const Form = ({ showCity }) => {
         <div className="input-group mb-3 d-flex justify-content-center">
           <div className="col-sm-7">
             <input
+              value={city}
               type="text"
               className="form-control rounded-0"
               placeholder="Ciudad"

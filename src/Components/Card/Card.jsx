@@ -43,7 +43,7 @@ const Card = ({ showInfo, weather, forecast }) => {
       list[0].dt_txt.substring(0, 4) +
       "/" +
       " " +
-      "Hr" +
+      "H" +
       " " +
       list[0].dt_txt.substring(11, 13);
 
@@ -56,7 +56,7 @@ const Card = ({ showInfo, weather, forecast }) => {
       list[2].dt_txt.substring(0, 4) +
       "/" +
       " " +
-      "Hr" +
+      "H" +
       " " +
       list[2].dt_txt.substring(11, 13);
 
@@ -69,7 +69,7 @@ const Card = ({ showInfo, weather, forecast }) => {
       list[3].dt_txt.substring(0, 4) +
       "/" +
       " " +
-      "Hr" +
+      "H" +
       " " +
       list[3].dt_txt.substring(11, 13);
   }
