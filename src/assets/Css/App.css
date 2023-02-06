@@ -40,7 +40,7 @@ body {
 }
 
 
-@media (min-width: 390px) {
+@media (max-width: 390px) {
   .card-temp {
     padding: 0 1.1rem;
     margin-top: 10rem;
