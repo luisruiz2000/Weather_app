@@ -35,7 +35,7 @@ const Form = ({ showCity }) => {
               value={city}
               type="text"
               className="form-control rounded-0"
-              placeholder="Ecriba el nombre de una Ciudad"
+              placeholder="Escriba el nombre de una Ciudad"
               autoComplete="off"
               onChange={handleOnchange}
             />
