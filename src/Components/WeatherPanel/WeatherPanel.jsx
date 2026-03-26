@@ -21,16 +21,18 @@ const WeatherPanel = () => {
       let urlWeather = `https://api.openweathermap.org/data/2.5/weather?q=${loc}&appid=${apiKey}&lang=es`;
       const getWeather = await axios(urlWeather);
       const dataWeather = await getWeather.data;
+      console.log("Respuesta de la API del clima:", dataWeather);
       setWeather(dataWeather);
 
       //Forecast
       let urlForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${loc}&appid=${apiKey}&lang=es`;
       const getForecast = await axios(urlForecast);
+      console.log("Respuesta de la API del pronóstico:", getForecast.data);
       setForecast(getForecast.data);
       setLoading(false);
       setShowInfo(true);
     } catch (error) {
-      console.log({ msg: "ERROR PETICION" });
+      console.log({ msg: "ERROR PETICION", error: error });
       alert("Esta ciudad no existe, por favor escriba la ciudad correctamente");
       setShowInfo(false);
       setLoading(false);

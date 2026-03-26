@@ -1,24 +1,66 @@
 import React from "react";
-import "../../assets/Css/App.css";
 import imgWeather from "../../assets/Img/imgWeather.jpg";
+import "./card.css";
 const Card = ({ showInfo, weather, forecast }) => {
   let today = new Date();
   let day = today.getDate();
-  let month = today.getMonth() + 1;
+  let month = today.getMonth();
   let year = today.getFullYear();
 
-  let date = `${day}/ ${month}/ ${year}`;
+  
+  const diasSemana = [
+    "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"
+  ];
+  const meses = [
+    "enero", "febrero", "marzo", "abril", "mayo", "junio",
+    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+  ];
+
+  
+  let date = `Hoy, ${day} de ${meses[month]} de ${year}`;
 
   const { name, main, wind } = weather;
   const { list } = forecast;
 
-  //ICONS
+  const formatForecastDate = (dt_txt) => {
+    const dateObj = new Date(dt_txt);
+    const today = new Date();
+
+    const dia = dateObj.getDate();
+
+    const diaHoy = today.getDate();
+
+    let horas = dateObj.getHours();
+    const minutos = String(dateObj.getMinutes()).padStart(2, "0");
+    const ampm = horas >= 12 ? "PM" : "AM";
+    horas = horas % 12;
+    horas = horas ? horas : 12;
+
+    
+    if (dia === diaHoy) {
+      return `Hoy a las ${horas}:${minutos} ${ampm}`;
+    }
+
+    
+    const diasSemana = [
+      "Domingo",
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+    ];
+    const diaSemana = diasSemana[dateObj.getDay()];
+
+    return `${diaSemana} a las ${horas}:${minutos} ${ampm}`;
+  };
+
   let iconWeather = "";
   let iconForecastOne = "";
   let iconForecastTwo = "";
   let iconForecastThree = "";
 
-  //Data Forecast
   let forecastDataOne = "";
   let forecastDataTwo = "";
   let forecastDataThree = "";
@@ -35,117 +77,66 @@ const Card = ({ showInfo, weather, forecast }) => {
     iconForecastTwo = urlForecast6;
     iconForecastThree = urlForecast9;
 
-    forecastDataOne =
-      list[0].dt_txt.substring(8, 10) +
-      "/" +
-      list[0].dt_txt.substring(5, 7) +
-      "/" +
-      list[0].dt_txt.substring(0, 4) +
-      "/" +
-      " " +
-      "H" +
-      " " +
-      list[0].dt_txt.substring(11, 13);
-
-    //forecast 6h
-    forecastDataTwo =
-      list[2].dt_txt.substring(8, 10) +
-      "/" +
-      list[2].dt_txt.substring(5, 7) +
-      "/" +
-      list[2].dt_txt.substring(0, 4) +
-      "/" +
-      " " +
-      "H" +
-      " " +
-      list[2].dt_txt.substring(11, 13);
-
-    //forecast 9h
-    forecastDataThree =
-      list[3].dt_txt.substring(8, 10) +
-      "/" +
-      list[3].dt_txt.substring(5, 7) +
-      "/" +
-      list[3].dt_txt.substring(0, 4) +
-      "/" +
-      " " +
-      "H" +
-      " " +
-      list[3].dt_txt.substring(11, 13);
+    forecastDataOne = formatForecastDate(list[0].dt_txt);
+    forecastDataTwo = formatForecastDate(list[2].dt_txt);
+    forecastDataThree = formatForecastDate(list[3].dt_txt);
   }
 
   return (
-    <div className="mt-5">
+    <div className="card_info">
       {showInfo === true ? (
-        <div className="container">
-          <div className="card mb-3 mx-auto bg-dark text-light">
-            <div className="row g-0">
-              <div className="col-md-4">
-                <h3 className="card-title">{name}</h3>
-                <p className="card-date">{date}</p>
-                <h1 className="card-temp">
-                  {(main.temp - 273.15).toFixed(0)}°C
-                </h1>
-                <p className="card-desc">
-                  <img src={iconWeather} alt="Icon" />{" "}
-                  {weather.weather[0].description}{" "}
-                </p>
-                <img
-                  src={imgWeather}
-                  alt="Image"
-                  className="img-fluid rounded-start"
-                />
+        <div className="card_content">
+          <div className="climate_city">
+            <div className="climate_city_result ">
+              <div className="glass">
+                <h3>{name}</h3>
+                <p>{date}</p>
               </div>
-              <div className="col-md-8">
-                <div className="card-body text-start">
-                  <h5 className="card-text">
-                    Temperatura Maxima: {(main.temp_max - 273.15).toFixed(0)}°C
-                  </h5>
-                  <h5 className="card-text">
-                    Temperatura Minima: {(main.temp_min - 273.15).toFixed(0)}°C
-                  </h5>
-                  <h5 className="card-text">
-                    Sensacion Terminica: {(main.feels_like - 273.15).toFixed(0)}
-                    °C
-                  </h5>
-                  <h5 className="card-text">Humedad: {main.humidity}% </h5>
-                  <h5 className="card-text">
-                    Velicidad Del Viento: {wind.speed}m/s
-                  </h5>
-                </div>
-                <hr />
-                <div className="row mt-4">
-                  <div className="col">
-                    <p>{forecastDataOne}:00</p>
-                    <p className="description">
-                      <img src={iconForecastOne} alt="icon" />
-                      {list[1].weather[0].description}
-                    </p>
-                    <p className="temp">
-                      {(list[1].main.temp - 273.15).toFixed(0)}°C
-                    </p>
-                  </div>
-                  <div className="col">
-                    <p>{forecastDataTwo}:00</p>
-                    <p className="description">
-                      <img src={iconForecastTwo} alt="icon" />
-                      {list[2].weather[0].description}
-                    </p>
-                    <p className="temp">
-                      {(list[2].main.temp - 273.15).toFixed(0)}°C
-                    </p>
-                  </div>
-                  <div className="col">
-                    <p>{forecastDataThree}:00</p>
-                    <p className="description">
-                      <img src={iconForecastThree} alt="icon" />
-                      {list[3].weather[0].description}
-                    </p>
-                    <p className="temp">
-                      {(list[3].main.temp - 273.15).toFixed(0)}°C
-                    </p>
-                  </div>
-                </div>
+              <div>
+                <p className="glass d-flex justify-content-between align-items-center">
+                 <div> <img src={iconWeather} alt="Icon" />{" "}
+                  {weather.weather[0].description}{" "}</div>
+                <h1>{(main.temp - 273.15).toFixed(0)}°C</h1>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* forecast */}
+          <div className="card_more_info">
+            <div>
+              <h3>Mas informacion</h3>
+              <p><i className="bi bi-thermometer-high"></i> Temperatura Maxima: {(main.temp_max - 273.15).toFixed(0)}°C</p>
+              <p><i className="bi bi-thermometer-low"></i> Temperatura Minima: {(main.temp_min - 273.15).toFixed(0)}°C</p>
+              <p><i className="bi bi-thermometer-half"></i> Sensacion Térmica: {(main.feels_like - 273.15).toFixed(0)}°C</p>
+              <p><i className="bi bi-droplet"></i> Humedad: {main.humidity}% </p>
+              <p><i className="bi bi-wind"></i> Velicidad Del Viento: {wind.speed}m/s</p>
+            </div>
+            <hr />
+            <div className="forecast">
+              <div className="forecast_card">
+                <p>{forecastDataOne}</p>
+                <p>
+                  <img src={iconForecastOne} alt="icon" />
+                  {list[1].weather[0].description}
+                </p>
+                <p>{(list[1].main.temp - 273.15).toFixed(0)}°C</p>
+              </div>
+              <div className="forecast_card">
+                <p>{forecastDataTwo}</p>
+                <p>
+                  <img src={iconForecastTwo} alt="icon" />
+                  {list[2].weather[0].description}
+                </p>
+                <p>{(list[2].main.temp - 273.15).toFixed(0)}°C</p>
+              </div>
+              <div className="forecast_card">
+                <p>{forecastDataThree}</p>
+                <p>
+                  <img src={iconForecastThree} alt="icon" />
+                  {list[3].weather[0].description}
+                </p>
+                <p>{(list[3].main.temp - 273.15).toFixed(0)}°C</p>
               </div>
             </div>
           </div>

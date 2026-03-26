@@ -1,52 +1,75 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import "./from.css";  
 
-const Form = ({ showCity }) => {
+const CITY_VALIDATION_REGEX = /^[a-zA-ZÀ-ÿ\s]{0,40}$/;
+
+const Form = ({ showCity, showInfo }) => {
   const [city, setCity] = useState("");
-  const [error, setError] = useState({ empty: "", noNumbers: "" });
+  const [hasError, setHasError] = useState(false);
 
-  const expresiones = { noNumberExpresion: /^[a-zA-ZÀ-ÿ\s]{0,40}$/ };
+  const isValidCity = (value) => CITY_VALIDATION_REGEX.test(value);
 
   const handleOnchange = (e) => {
-    let value = e.target.value;
+    const value = e.target.value;
 
-    setError({ empty: "", noNumbers: "" });
+    
+    setHasError(false);
 
-    expresiones.noNumberExpresion.test(value)
-      ? setCity(value)
-      : setError({ noNumbers: "Este campo solo permite letras" });
+    if (isValidCity(value)) {
+      setCity(value);
+    } else if (value.length > 0) {
+      
+      setHasError(true);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (city === "" || !city) {
-      setError({ empty: "Ingresa Una Ciudad" });
-    } else {
-      showCity(city);
+
+    const cityTrimmed = city.trim();
+
+    
+    if (!cityTrimmed) {
+      setHasError(true);
+      return;
+    }
+
+    
+    showCity(cityTrimmed);
+    setCity("");
+    setHasError(false);
+  };
+
+  const handleBlur = () => {
+    
+    if (!city.trim()) {
       setCity("");
+      setHasError(false);
     }
   };
 
   return (
-    <div className="container">
+    <div className="container mt-4">
       <form onSubmit={handleSubmit}>
         <div className="input-group mb-3 d-flex justify-content-center">
           <div className="col-sm-7">
             <input
               value={city}
               type="text"
-              className="form-control rounded-0"
-              placeholder="Nombre de una Ciudad"
+              className={`form-control rounded-0 ${
+                hasError ? "is-invalid" : ""
+              }`}
+              placeholder="Ingrese una ciudad "
               autoComplete="off"
               onChange={handleOnchange}
+              onBlur={handleBlur}
             />
           </div>
-          <button className="input-group-text btn btn-primary" type="submit">
+          <button className="input-group-text btn btn_buscar" type="submit">
             Buscar
           </button>
         </div>
       </form>
-      {error.empty ? <p className="text-danger">{error.empty}</p> : ""}
-      {error.noNumbers ? <p className="text-danger">{error.noNumbers}</p> : ""}
     </div>
   );
 };

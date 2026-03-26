@@ -1,0 +1,16 @@
+.btn_buscar{
+    background-color: #3b2372;
+    color: #ccc;
+}
+
+.btn_buscar:hover{
+    background-color: #3b2379;
+    color: #fff;
+}
+
+/* Quitar foco azul intenso en input */
+.form-control:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 0.2rem rgba(162, 75, 255, 0.25) !important;
+    border-color: #3b2379 !important;
+}
