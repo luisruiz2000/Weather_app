@@ -129,3 +129,24 @@
     padding: 1.5rem;
     border-radius: 0 10px 10px 0;
 }
+
+@media (max-width: 480px) { 
+
+    .card_info {
+        height: auto;
+        margin-bottom: 1rem;
+    }
+
+    .climate_city{
+        width: auto;
+    }
+    .card_more_info {
+        width: 100%;
+    }
+
+    .card_content{
+        flex-wrap: wrap;
+        width: main-content;
+    }
+}
+
